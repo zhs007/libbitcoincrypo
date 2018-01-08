@@ -1,0 +1,25 @@
+{
+  "name": "libbitcoincrypo",
+  "version": "1.0.0",
+  "description": "libbitcoincrypo for nodejs",
+  "main": "index.js",
+  "scripts": {
+    "configure": "node-gyp configure",
+    "build": "node-gyp build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zhs007/libbitcoincrypo.git"
+  },
+  "author": "zhs007",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zhs007/libbitcoincrypo/issues"
+  },
+  "homepage": "https://github.com/zhs007/libbitcoincrypo#readme",
+  "dependencies": {
+    "bindings": "^1.3.0",
+    "nan": "^2.8.0"
+  }
+}
