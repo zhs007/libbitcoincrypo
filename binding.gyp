@@ -3,6 +3,8 @@
         {
             "target_name": "bitcoincrypo",
             "sources": [
+                "src/libbitcoincrypo.cpp",
+                "src/main.cpp",
                 "src/libbitcoincrypo/Base58Check.cpp", 
                 "src/libbitcoincrypo/CurvePoint.cpp",
                 "src/libbitcoincrypo/Ecdsa.cpp",
