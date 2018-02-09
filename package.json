@@ -1,6 +1,6 @@
 {
   "name": "libbitcoincrypo",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "libbitcoincrypo for nodejs",
   "main": "index.js",
   "scripts": {

@@ -20,7 +20,13 @@ NAN_MODULE_INIT(Init) {
         Nan::GetFunction(Nan::New<v8::FunctionTemplate>(prikey2base58check)).ToLocalChecked());
 
     Nan::Set(target, Nan::New("pubkeyhash2base58check").ToLocalChecked(),
-        Nan::GetFunction(Nan::New<v8::FunctionTemplate>(pubkeyhash2base58check)).ToLocalChecked());                
+        Nan::GetFunction(Nan::New<v8::FunctionTemplate>(pubkeyhash2base58check)).ToLocalChecked());
+
+    Nan::Set(target, Nan::New("base58check2prikey").ToLocalChecked(),
+        Nan::GetFunction(Nan::New<v8::FunctionTemplate>(base58check2prikey)).ToLocalChecked());
+
+    Nan::Set(target, Nan::New("base58check2pubkeyhash").ToLocalChecked(),
+        Nan::GetFunction(Nan::New<v8::FunctionTemplate>(base58check2pubkeyhash)).ToLocalChecked());                                
 }
 
 NODE_MODULE(libbitcoincrypo, Init)

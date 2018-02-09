@@ -44,3 +44,12 @@ console.log('prikeywif is ' + prikeywif);
 
 let pubhashwif = libbitcoincrypo.pubkeyhash2base58check(hash160pubkey);
 console.log('pubhashwif is ' + pubhashwif);
+
+let wifprikey = libbitcoincrypo.base58check2prikey(prikeywif);
+console.log('wifprikey is ' + outputUint8Arr(wifprikey));
+
+let pubkey2 = libbitcoincrypo.prikey2pubkey(wifprikey);
+console.log('pubkey2 is ' + outputUint8Arr(pubkey2));
+
+let wifpubhash = libbitcoincrypo.base58check2pubkeyhash(pubhashwif);
+console.log('wifpubhash is ' + outputUint8Arr(wifpubhash));

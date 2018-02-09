@@ -28,3 +28,11 @@ NAN_METHOD(prikey2base58check);
 // pubkeyhash2base58check(uint8arr)
 // return base58check
 NAN_METHOD(pubkeyhash2base58check);
+
+// base58check2prikey(base58check)
+// return uint8arr
+NAN_METHOD(base58check2prikey);
+
+// base58check2pubkeyhash(base58check)
+// return uint8arr
+NAN_METHOD(base58check2pubkeyhash);

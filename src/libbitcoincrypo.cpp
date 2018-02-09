@@ -4,6 +4,7 @@
 #include "libbitcoincrypo/CurvePoint.hpp"
 #include "libbitcoincrypo/Ripemd160.hpp"
 #include "libbitcoincrypo/Base58Check.hpp"
+#include "stdio.h"
 
 // cmpUint256(uint8arr0, uint8arr1)
 // return -1, 0, 1
@@ -240,4 +241,84 @@ void pubkeyhash2base58check(const Nan::FunctionCallbackInfo<v8::Value>& info) {
     Base58Check::pubkeyHashToBase58Check(*vuint8, str);
 
     info.GetReturnValue().Set(Nan::New(str).ToLocalChecked());
+}
+
+// base58check2prikey(base58check)
+// return uint8arr
+void base58check2prikey(const Nan::FunctionCallbackInfo<v8::Value>& info) {
+    if (info.Length() != 1) {
+        Nan::ThrowTypeError("base58check2prikey: Wrong number of arguments.");
+
+        return;
+    }
+
+    if (!info[0]->IsString()) {
+        Nan::ThrowTypeError("base58check2prikey: Wrong arguments.");
+
+        return;
+    }
+
+    v8::Local<v8::String> str = info[0].As<v8::String>();
+
+    if (str->Length() != 52) {
+        char strbuf[128];
+        sprintf(strbuf, "base58check2prikey: base58check len(%d) err.", str->Length());
+
+        Nan::ThrowTypeError(strbuf);
+
+        return;
+    }
+
+    v8::String::Utf8Value utf8str(str);
+
+    Uint256 ui256;
+    Base58Check::privateKeyFromBase58Check(*utf8str, ui256);
+
+    v8::Local<v8::ArrayBuffer> buffer = v8::ArrayBuffer::New(v8::Isolate::GetCurrent(), 32);
+    v8::Local<v8::Uint8Array> result = v8::Uint8Array::New(buffer, 0, 32);
+    Nan::TypedArrayContents<std::uint8_t> vuint8r(result);
+
+    memcpy(*vuint8r, ui256.value, 32);
+    for (int i = 0; i < 16; ++i) {
+        std::swap((*vuint8r)[i], (*vuint8r)[31 - i]);
+    }
+
+    info.GetReturnValue().Set(result);
+}
+
+// base58check2pubkeyhash(base58check)
+// return uint8arr
+void base58check2pubkeyhash(const Nan::FunctionCallbackInfo<v8::Value>& info) {
+    if (info.Length() != 1) {
+        Nan::ThrowTypeError("base58check2pubkeyhash: Wrong number of arguments.");
+
+        return;
+    }
+
+    if (!info[0]->IsString()) {
+        Nan::ThrowTypeError("base58check2pubkeyhash: Wrong arguments.");
+
+        return;
+    }
+
+    v8::Local<v8::String> str = info[0].As<v8::String>();
+
+    if (str->Length() != 34) {
+        Nan::ThrowTypeError("base58check2pubkeyhash: base58check len err.");
+
+        return;
+    }
+
+    v8::String::Utf8Value utf8str(str);
+
+    std::uint8_t hashResult[Ripemd160::HASH_LEN];
+    Base58Check::pubkeyHashFromBase58Check(*utf8str, hashResult);
+
+    v8::Local<v8::ArrayBuffer> buffer = v8::ArrayBuffer::New(v8::Isolate::GetCurrent(), 20);
+    v8::Local<v8::Uint8Array> result = v8::Uint8Array::New(buffer, 0, 20);
+    Nan::TypedArrayContents<std::uint8_t> vuint8r(result);
+
+    memcpy(*vuint8r, hashResult, 20);
+
+    info.GetReturnValue().Set(result);
 }
